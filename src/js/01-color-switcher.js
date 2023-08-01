@@ -4,6 +4,7 @@ function getRandomHexColor() {
 
 const btnStart = document.querySelector('[data-start]');
 const btnStop = document.querySelector('[data-stop]');
+let timerId;
 
 function startSwitchColor(){
     btnStart.disabled = true;
