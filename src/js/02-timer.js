@@ -1,15 +1,15 @@
-import Notiflix from 'notiflix';
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
-
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 const TIMER_DELAY = 1000;
 let intervalId = null;
 let selectedDate = null;
 let currentDate = null;
-const calendar = document.querySelector('#datetime-picker');
-const startBtn = document.querySelector('[data-start-timer]');
-startBtn.disabled = true;
 
+const calendar = document.querySelector('#datetime-picker');
+const startBtn = document.querySelector('[data-start]');
+startBtn.disabled = true;
 
 function updateStyles() {
     const fields = document.querySelectorAll('.field');
@@ -30,10 +30,9 @@ function updateStyles() {
   
   updateStyles();
 
-  Report.info(
-    '👋 Greeting, my Friend!',
-    'Please, choose a date and click on start',
-    'Okay'
+
+Notify.info(
+    'Choose date in the future and click on the start!'
   );
   
   flatpickr(calendar, {
@@ -43,16 +42,11 @@ function updateStyles() {
     minuteIncrement: 1,
     onClose(selectedDates) {
       if (selectedDates[0].getTime() < Date.now()) {
-        Report.failure(
-          '🥺 Ooops...',
-          'Please, choose a date in the future and remember: "Knowledge rests not upon truth alone, but upon error also." - Carl Gustav Jung',
-          'Okay'
-        );
+        Notify.failure(
+          'Please, choose a date in the future!')
       } else {
-        Report.success(
-          '🥰 Congratulation! Click on start!',
-          '"Do not try to become a person of success but try to become a person of value." <br/><br/>- Albert Einstein',
-          'Okay'
+        Notify.success(
+          'Click on start!'
         );
         startBtn.disabled = false;
         const setTimer = () => {
@@ -76,10 +70,8 @@ function updateStyles() {
   
         if (delta <= 0) {
           this.stop();
-          Report.info(
-            '👏 Congratulation! Timer stopped!',
-            'Please, if you want to start timer, choose a date and click on start or reload this page',
-            'Okay'
+          Notify.info(
+            'Timer stopped!'
           );
           return;
         }
