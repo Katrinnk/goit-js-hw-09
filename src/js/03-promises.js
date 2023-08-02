@@ -30,15 +30,19 @@ function onPromiseCreate(e) {
   let stepValue = Number(step.value);
   let amountValue = Number(amount.value);
 
-  for (let i = 1; i <= amountValue; i += 1) {
-    let promiseDelay = delayValue + stepValue * i;
+if (stepValue <0 || delayValue <0 ||  amountValue <=0){
+  Notify.info('! values ​​must be greater than 0');
+  return;
+}
 
-    createPromise(i, promiseDelay)
+  for (let i = 1; i <= amountValue; i += 1) {
+    createPromise(i, delayValue)
       .then(({ position, delay }) => {
-        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
       })
       .catch(({ position, delay }) => {
-        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        Notify.failure(`Rejected promise ${position} in ${delay}ms`);
       });
+      delayValue +=stepValue;
   }
 }
